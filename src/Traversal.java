@@ -1,3 +1,5 @@
+import java.util.Stack;
+
 public class Traversal {
   public static void main(String[] args) {
     TreeNode<Integer> root = new TreeNode<>(10, null, null);
@@ -18,7 +20,34 @@ public class Traversal {
     stringRoot.right.left = new TreeNode<>("jays");
     stringRoot.right.left.right = new TreeNode<>("robocop");
 
-    inOrder(stringRoot);
+    // inOrder(stringRoot);
+
+    TreeNode<Integer> megaRoot = new TreeNode<>(1);
+
+    TreeNode<Integer> current = megaRoot;
+    for(int i = 2; i < 30001; i++) {
+      TreeNode<Integer> node = new TreeNode<>(i);
+      current.right = node;
+      current = node;
+    }
+
+    preOrder(root);
+    System.out.println("***************************");
+    preOrderIter(root);
+  }
+
+  public static void preOrderIter(TreeNode<?> current) {
+    Stack<TreeNode<?>> stack = new Stack<>();
+    stack.push(current);
+    
+    while(!stack.empty()) {
+      TreeNode<?> node = stack.pop();
+      if (node != null) {
+        System.out.println(node.value);
+        stack.push(node.right);
+        stack.push(node.left);
+      }
+    }
   }
 
   public static void preOrder(TreeNode<?> current) {
@@ -42,5 +71,20 @@ public class Traversal {
     inOrder(current.left);
     System.out.println(current.value);
     inOrder(current.right);
+  }
+
+  public static void greaterThan(TreeNode<Integer> current, int limit){
+    if(current == null) return;
+    if(current.value > limit) System.out.println(current.value);
+    greaterThan(current.left, limit);
+    greaterThan(current.right, limit);
+  }
+
+  public static int countNodes(TreeNode<?> current){
+    if(current == null) return 0;
+    int leftCount = countNodes(current.left);
+    int rightCount = countNodes(current.right);
+    int totalCount = leftCount + rightCount + 1;
+    return totalCount;
   }
 }
