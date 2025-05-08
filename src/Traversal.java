@@ -1,5 +1,7 @@
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Set;
 import java.util.Stack;
 
 public class Traversal {
@@ -37,8 +39,44 @@ public class Traversal {
     // System.out.println("***************************");
     // preOrderIter(root);
 
-    levelOrder(root);
+    // levelOrder(root);
+
+    Set<Integer> set = convertToSet(root);
+    System.out.println(set);
   }
+
+
+
+
+
+  public static int countDistinctValues(TreeNode<?> root) {
+    Set<?> values = convertToSet(root);
+    return values.size();
+  } 
+
+
+  public static <T> Set<T> convertToSet(TreeNode<T> root) {
+    Set<T> set = new HashSet<>();
+    // Recursively add everything to set
+    convertToSetHelper(root, set);
+    return set;
+  }
+
+  public static <T> void convertToSetHelper(TreeNode<T> current, Set<T> set) {
+    if(current == null) return;
+    set.add(current.value);
+
+    convertToSetHelper(current.left, set);
+    convertToSetHelper(current.right, set);
+  }
+
+
+
+
+
+
+
+
 
   public static void preOrderIter(TreeNode<?> current) {
     Stack<TreeNode<?>> stack = new Stack<>();
